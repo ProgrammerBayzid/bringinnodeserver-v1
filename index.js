@@ -33,11 +33,21 @@ async function run() {
       const blogs = await blogsCollection.find(query).toArray();
       res.send(blogs);
     });
-    app.get("/comment", async (req, res) => {
-      const query = {};
-      const comment = await commentCollection.find(query).toArray();
-      res.send(comment);
-    });
+    // app.get("/comment", async (req, res) => {
+    //   const query = {};
+    //   const comment = await commentCollection.find(query).toArray();
+    //   res.send(comment);
+    // });
+    app.get('/comment', async (req, res) => {
+      let query = {}
+      const limit = parseInt(req.query.limit) || 0;
+      if (req.query.blogId) {
+          query = { blogId: req.query.blogId }
+      }
+      const cursor = commentCollection.find(query).sort({ _id: -1 }).limit(limit);
+      const feedback = await cursor.toArray();
+      res.send(feedback)
+  });
 
     app.get("/cetagorys", async (req, res) => {
       const query = {};
