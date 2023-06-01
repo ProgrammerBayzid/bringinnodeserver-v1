@@ -36,7 +36,7 @@ async function run() {
     app.get('/recent/post', async (req, res) => {
       const query = {};
       const cursor = blogsCollection.find(query);
-      const services = await cursor.limit(3).toArray();
+      const services = await cursor.limit(5).toArray();
       res.send(services)
   });
     app.get("/bringinfeatured", async (req, res) => {
