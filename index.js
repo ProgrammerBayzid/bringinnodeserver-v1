@@ -33,11 +33,16 @@ async function run() {
       const blogs = await blogsCollection.find(query).toArray();
       res.send(blogs);
     });
-    // app.get("/comment", async (req, res) => {
-    //   const query = {};
-    //   const comment = await commentCollection.find(query).toArray();
-    //   res.send(comment);
-    // });
+    app.get("/bringinfeatured", async (req, res) => {
+      const query = {};
+      const bringinfeatured = await bringinfeaturedCollection.find(query).toArray();
+      res.send(bringinfeatured);
+    });
+    app.get("/influencers", async (req, res) => {
+      const query = {};
+      const influencers = await influencersCollection.find(query).toArray();
+      res.send(influencers);
+    });
     app.get('/comment', async (req, res) => {
       let query = {}
       const limit = parseInt(req.query.limit) || 0;
