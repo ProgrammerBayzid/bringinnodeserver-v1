@@ -30,7 +30,7 @@ async function run() {
 
     app.get("/blogs", async (req, res) => {
       const query = {};
-      const blogs = await blogsCollection.find(query).toArray();
+      const blogs = await blogsCollection.find(query).toArray().sort({ _id: -1 });
       res.send(blogs);
     });
     app.get("/bringinfeatured", async (req, res) => {
