@@ -97,9 +97,9 @@ async function run() {
       const singlecatagoryName = await catagoryName.toArray();
       res.send(singlecatagoryName);
     });
-    app.get("/catagory/blogs/:categoryName", async (req, res) => {
+    app.get("/guidline/blogs/:categoryName", async (req, res) => {
       const catagory = req.params.categoryName;
-      const limit = parseInt(req.query.limit) || 0;
+      const limit = parseInt(req.query.limit) || 3;
       const catagoryName = blogsCollection
         .find({ categoryName: catagory })
         .sort({ _id: -1 })
