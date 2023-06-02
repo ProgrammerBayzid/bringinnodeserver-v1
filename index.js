@@ -4,7 +4,7 @@ require("dotenv").config();
 
 const app = express();
 const port = process.env.PORT || 5000;
-const { MongoClient, ServerApiVersion, ObjectId, } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 
 // middelware
 app.use(cors());
@@ -22,43 +22,64 @@ async function run() {
   try {
     const blogsCollection = client.db("bringinBlogs").collection("blogs");
     const commentCollection = client.db("bringinBlogs").collection("comment");
-    const bringinfeaturedCollection = client.db("bringinBlogs").collection("bringinfeatured");
-    const influencersCollection = client.db("bringinBlogs").collection("influencers ");
+    const bringinfeaturedCollection = client
+      .db("bringinBlogs")
+      .collection("bringinfeatured");
+    const influencersCollection = client
+      .db("bringinBlogs")
+      .collection("influencers ");
     const cetagoryCollection = client
       .db("bringinBlogs")
       .collection("blogCetagory");
 
     app.get("/blogs", async (req, res) => {
       const query = {};
-      const blogs = await blogsCollection.find(query).toArray();
-      res.send(blogs);
+      const limit = parseInt(req.query.limit) || 0;
+      const blogs = blogsCollection.find(query).sort({ _id: -1 }).limit(limit);
+      const blog = await blogs.toArray();
+      res.send(blog);
     });
-    app.get('/recent/post', async (req, res) => {
+    app.get("/recent/post", async (req, res) => {
       const query = {};
+      const limit = parseInt(req.query.limit) || 0;
       const cursor = blogsCollection.find(query);
-      const services = await cursor.limit(5).toArray();
-      res.send(services)
-  });
+      const services = cursor.limit(5).sort({ _id: -1 }).limit(limit);
+      const ser = await services.toArray();
+      res.send(ser);
+    });
     app.get("/bringinfeatured", async (req, res) => {
       const query = {};
-      const bringinfeatured = await bringinfeaturedCollection.find(query).toArray();
-      res.send(bringinfeatured);
+      const limit = parseInt(req.query.limit) || 0;
+      const bringinfeatured = bringinfeaturedCollection
+        .find(query)
+        .sort({ _id: -1 })
+        .limit(limit);
+      const bringinfeatureds = await bringinfeatured.toArray();
+      res.send(bringinfeatureds);
     });
     app.get("/influencers", async (req, res) => {
       const query = {};
-      const influencers = await influencersCollection.find(query).toArray();
-      res.send(influencers);
+      const limit = parseInt(req.query.limit) || 0;
+      const influencers = influencersCollection
+        .find(query)
+        .sort({ _id: -1 })
+        .limit(limit);
+      const influncer = await influencers.toArray();
+      res.send(influncer);
     });
-    app.get('/comment', async (req, res) => {
-      let query = {}
+    app.get("/comment", async (req, res) => {
+      let query = {};
       const limit = parseInt(req.query.limit) || 0;
       if (req.query.blogId) {
-          query = { blogId: req.query.blogId }
+        query = { blogId: req.query.blogId };
       }
-      const cursor = commentCollection.find(query).sort({ _id: -1 }).limit(limit);
+      const cursor = commentCollection
+        .find(query)
+        .sort({ _id: -1 })
+        .limit(limit);
       const feedback = await cursor.toArray();
-      res.send(feedback)
-  });
+      res.send(feedback);
+    });
 
     app.get("/cetagorys", async (req, res) => {
       const query = {};
@@ -68,10 +89,23 @@ async function run() {
 
     app.get("/catagory/blogs/:categoryName", async (req, res) => {
       const catagory = req.params.categoryName;
-      const catagoryName = await blogsCollection
+      const limit = parseInt(req.query.limit) || 0;
+      const catagoryName = blogsCollection
         .find({ categoryName: catagory })
-        .toArray();
-      res.send(catagoryName);
+        .sort({ _id: -1 })
+        .limit(limit);
+      const singlecatagoryName = await catagoryName.toArray();
+      res.send(singlecatagoryName);
+    });
+    app.get("/catagory/blogs/:categoryName", async (req, res) => {
+      const catagory = req.params.categoryName;
+      const limit = parseInt(req.query.limit) || 0;
+      const catagoryName = blogsCollection
+        .find({ categoryName: catagory })
+        .sort({ _id: -1 })
+        .limit(limit);
+      const singlecatagoryName = await catagoryName.toArray();
+      res.send(singlecatagoryName);
     });
 
     app.get("/blogs/:id", async (req, res) => {
@@ -101,7 +135,7 @@ async function run() {
       const influencers = await influencersCollection.insertOne(user);
       res.send(influencers);
     });
-  } catch (error) { }
+  } catch (error) {}
 }
 run().catch(console.log);
 
