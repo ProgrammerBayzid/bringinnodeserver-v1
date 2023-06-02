@@ -78,6 +78,33 @@ async function run() {
       const influncer = await influencers.toArray();
       res.send(influncer);
     });
+
+    app.delete('/blogs/:id',  async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) };
+      const result = await blogsCollection.deleteOne(filter);
+      res.send(result);
+  });
+    app.delete('/review/:id',  async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) };
+      const result = await reviewCollection.deleteOne(filter);
+      res.send(result);
+  });
+    app.delete('/bringinfeatured/:id',  async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) };
+      const result = await bringinfeaturedCollection.deleteOne(filter);
+      res.send(result);
+  });
+    app.delete('/influencers/:id',  async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) };
+      const result = await influencersCollection.deleteOne(filter);
+      res.send(result);
+  });
+
+
     app.get("/comment", async (req, res) => {
       let query = {};
       const limit = parseInt(req.query.limit) || 0;
