@@ -22,6 +22,7 @@ async function run() {
   try {
     const blogsCollection = client.db("bringinBlogs").collection("blogs");
     const commentCollection = client.db("bringinBlogs").collection("comment");
+    const reviewCollection = client.db("bringinBlogs").collection("review");
     const bringinfeaturedCollection = client
       .db("bringinBlogs")
       .collection("bringinfeatured");
@@ -56,6 +57,16 @@ async function run() {
         .limit(limit);
       const bringinfeatureds = await bringinfeatured.toArray();
       res.send(bringinfeatureds);
+    });
+    app.get("/review", async (req, res) => {
+      const query = {};
+      const limit = parseInt(req.query.limit) || 0;
+      const bringinreview = reviewCollection
+        .find(query)
+        .sort({ _id: -1 })
+        .limit(limit);
+      const reviews = await bringinreview.toArray();
+      res.send(reviews);
     });
     app.get("/influencers", async (req, res) => {
       const query = {};
@@ -129,6 +140,11 @@ async function run() {
       const user = req.body;
       const bringinfeatured = await bringinfeaturedCollection.insertOne(user);
       res.send(bringinfeatured);
+    });
+    app.post("/review", async (req, res) => {
+      const user = req.body;
+      const sreview = await reviewCollection.insertOne(user);
+      res.send(sreview);
     });
     app.post("/influencers", async (req, res) => {
       const user = req.body;
