@@ -41,7 +41,7 @@ async function run() {
     });
     app.get("/recent/post", async (req, res) => {
       const query = {};
-      const limit = parseInt(req.query.limit) || 0;
+      const limit = parseInt(req.query.limit) || 5;
       const cursor = blogsCollection.find(query);
       const services = cursor.limit(5).sort({ _id: -1 }).limit(limit);
       const ser = await services.toArray();
