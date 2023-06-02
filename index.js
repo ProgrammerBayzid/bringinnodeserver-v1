@@ -35,7 +35,7 @@ async function run() {
 
     app.get("/blogs", async (req, res) => {
       const query = {};
-      const limit = parseInt(req.query.limit) || 5;
+      const limit = parseInt(req.query.limit) || 0;
       const blogs = blogsCollection.find(query).sort({ _id: -1 }).limit(limit);
       const blog = await blogs.toArray();
       res.send(blog);
