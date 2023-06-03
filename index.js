@@ -21,6 +21,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     const blogsCollection = client.db("bringinBlogs").collection("blogs");
+    const citiesCollection = client.db("bringinBlogs").collection("cities");
     const commentCollection = client.db("bringinBlogs").collection("comment");
     const reviewCollection = client.db("bringinBlogs").collection("review");
     const bringinfeaturedCollection = client
@@ -109,6 +110,12 @@ async function run() {
       const result = await commentCollection.deleteOne(filter);
       res.send(result);
   });
+    app.delete('/allcities/:id',  async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) };
+      const result = await citiesCollection.deleteOne(filter);
+      res.send(result);
+  });
 
 
     app.get("/comment", async (req, res) => {
@@ -134,6 +141,11 @@ async function run() {
       const query = {};
       const com = await commentCollection.find(query).toArray();
       res.send(com);
+    });
+    app.get("/cities", async (req, res) => {
+      const query = {};
+      const cities = await citiesCollection.find(query).toArray();
+      res.send(cities);
     });
 
     app.get("/catagory/blogs/:categoryName", async (req, res) => {
@@ -173,6 +185,11 @@ async function run() {
       const user = req.body;
       const comment = await commentCollection.insertOne(user);
       res.send(comment);
+    });
+    app.post("/cities", async (req, res) => {
+      const user = req.body;
+      const cities = await commentCollection.insertOne(user);
+      res.send(cities);
     });
     app.post("/bringinfeatured", async (req, res) => {
       const user = req.body;
