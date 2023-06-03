@@ -188,7 +188,7 @@ async function run() {
     });
     app.post("/cities", async (req, res) => {
       const user = req.body;
-      const cities = await commentCollection.insertOne(user);
+      const cities = await citiesCollection.insertOne(user);
       res.send(cities);
     });
     app.post("/bringinfeatured", async (req, res) => {
