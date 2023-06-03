@@ -103,6 +103,12 @@ async function run() {
       const result = await influencersCollection.deleteOne(filter);
       res.send(result);
   });
+    app.delete('/allcomment/:id',  async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) };
+      const result = await commentCollection.deleteOne(filter);
+      res.send(result);
+  });
 
 
     app.get("/comment", async (req, res) => {
@@ -123,6 +129,11 @@ async function run() {
       const query = {};
       const cetagory = await cetagoryCollection.find(query).toArray();
       res.send(cetagory);
+    });
+    app.get("/allcomment", async (req, res) => {
+      const query = {};
+      const com = await commentCollection.find(query).toArray();
+      res.send(com);
     });
 
     app.get("/catagory/blogs/:categoryName", async (req, res) => {
