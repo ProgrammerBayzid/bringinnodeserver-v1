@@ -110,6 +110,12 @@ async function run() {
       const result = await commentCollection.deleteOne(filter);
       res.send(result);
   });
+    app.delete('/cetagorys/:id',  async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) };
+      const result = await cetagoryCollection.deleteOne(filter);
+      res.send(result);
+  });
     app.delete('/allcities/:id',  async (req, res) => {
       const id = req.params.id;
       const filter = { _id: new ObjectId(id) };
@@ -179,6 +185,11 @@ async function run() {
     app.post("/blogs", async (req, res) => {
       const user = req.body;
       const result = await blogsCollection.insertOne(user);
+      res.send(result);
+    });
+    app.post("/caterogye", async (req, res) => {
+      const category = req.body;
+      const result = await cetagoryCollection.insertOne(category);
       res.send(result);
     });
     app.post("/comment", async (req, res) => {
