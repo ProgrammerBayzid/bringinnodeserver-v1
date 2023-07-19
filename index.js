@@ -24,6 +24,7 @@ async function run() {
     const citiesCollection = client.db("bringinBlogs").collection("cities");
     const commentCollection = client.db("bringinBlogs").collection("comment");
     const reviewCollection = client.db("bringinBlogs").collection("review");
+    const imgCollection = client.db("bringinBlogs").collection("imgs");
     const bringinfeaturedCollection = client
       .db("bringinBlogs")
       .collection("bringinfeatured");
@@ -80,49 +81,48 @@ async function run() {
       res.send(influncer);
     });
 
-    app.delete('/blogs/:id',  async (req, res) => {
+    app.delete("/blogs/:id", async (req, res) => {
       const id = req.params.id;
       const filter = { _id: new ObjectId(id) };
       const result = await blogsCollection.deleteOne(filter);
       res.send(result);
-  });
-    app.delete('/review/:id',  async (req, res) => {
+    });
+    app.delete("/review/:id", async (req, res) => {
       const id = req.params.id;
       const filter = { _id: new ObjectId(id) };
       const result = await reviewCollection.deleteOne(filter);
       res.send(result);
-  });
-    app.delete('/bringinfeatured/:id',  async (req, res) => {
+    });
+    app.delete("/bringinfeatured/:id", async (req, res) => {
       const id = req.params.id;
       const filter = { _id: new ObjectId(id) };
       const result = await bringinfeaturedCollection.deleteOne(filter);
       res.send(result);
-  });
-    app.delete('/influencers/:id',  async (req, res) => {
+    });
+    app.delete("/influencers/:id", async (req, res) => {
       const id = req.params.id;
       const filter = { _id: new ObjectId(id) };
       const result = await influencersCollection.deleteOne(filter);
       res.send(result);
-  });
-    app.delete('/allcomment/:id',  async (req, res) => {
+    });
+    app.delete("/allcomment/:id", async (req, res) => {
       const id = req.params.id;
       const filter = { _id: new ObjectId(id) };
       const result = await commentCollection.deleteOne(filter);
       res.send(result);
-  });
-    app.delete('/cetagorys/:id',  async (req, res) => {
+    });
+    app.delete("/cetagorys/:id", async (req, res) => {
       const id = req.params.id;
       const filter = { _id: new ObjectId(id) };
       const result = await cetagoryCollection.deleteOne(filter);
       res.send(result);
-  });
-    app.delete('/allcities/:id',  async (req, res) => {
+    });
+    app.delete("/allcities/:id", async (req, res) => {
       const id = req.params.id;
       const filter = { _id: new ObjectId(id) };
       const result = await citiesCollection.deleteOne(filter);
       res.send(result);
-  });
-
+    });
 
     app.get("/comment", async (req, res) => {
       let query = {};
@@ -216,6 +216,12 @@ async function run() {
       const user = req.body;
       const influencers = await influencersCollection.insertOne(user);
       res.send(influencers);
+    });
+
+    app.post("/imgs", async (req, res) => {
+      const user = req.body;
+      const imgs = await imgCollection.insertOne(user);
+      res.send(imgs);
     });
   } catch (error) {}
 }
